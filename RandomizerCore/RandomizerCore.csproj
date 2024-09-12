@@ -39,7 +39,8 @@
     <None Remove="Asm\" />
     <None Remove="Asm\BuffCarock.s" />
     <None Remove="Asm\MMC5.s" />
-    <None Update="Sprites\*.ips" CopyToOutputDirectory="PreserveNewest"/>
+    <None Remove="asm\z2ft.s" />
+    <None Update="Sprites\*.ips" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="nlog.config" CopyToOutputDirectory="PreserveNewest" />

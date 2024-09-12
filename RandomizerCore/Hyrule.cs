@@ -216,8 +216,8 @@ public class Hyrule
             accessibleMagicContainers = 4;
             reachableAreas = new HashSet<string>();
             //areasByLocation = new SortedDictionary<string, List<Location>>();
-            // Make a copy of the vanilla data to prevent seed bleed
-            ROMData = new ROM(vanillaRomData.ToArray());
+
+            ROMData = new ROM(vanillaRomData.ToArray(), true);
 
             if (props.RandomizeNewKasutoBasementRequirement)
             {
@@ -369,7 +369,11 @@ public class Hyrule
                 ROMData.WriteFastCastMagic();
             }
 
-            if (props.DisableMusic)
+            if (true) //// TEMP
+            {
+                assembler.Module().Code(Assembly.GetExecutingAssembly().ReadResource("RandomizerCore.Asm.z2ft.s"), "z2ft.s");
+            }
+            else if (props.DisableMusic)
             {
                 ROMData.DisableMusic();
             }
@@ -2212,7 +2216,7 @@ public class Hyrule
         }
 
         rom.UpdateSprites(props.CharSprite, props.TunicColor, props.ShieldColor, props.BeamSprite);
-        rom.Put(0x20010 + 0x1a000, Assembly.GetExecutingAssembly().ReadBinaryResource("RandomizerCore.Asm.Graphics.item_sprites.chr"));
+        rom.Put(ROM.ChrRomOffs + 0x1a000, Assembly.GetExecutingAssembly().ReadBinaryResource("RandomizerCore.Asm.Graphics.item_sprites.chr"));
 
         if (props.EncounterRates == EncounterRate.NONE)
         {
@@ -2649,14 +2653,14 @@ public class Hyrule
         // Copy heart and magic container sprite tiles to the new location.
         for (int i = 0; i < 64; i++)
         {
-            byte heartByte = ROMData.GetByte(0x27810 + i);
-            ROMData.Put(0x29810 + i, heartByte);
-            ROMData.Put(0x2B810 + i, heartByte);
-            ROMData.Put(0x2D810 + i, heartByte);
-            ROMData.Put(0x33810 + i, heartByte);
-            ROMData.Put(0x35810 + i, heartByte);
-            ROMData.Put(0x37810 + i, heartByte);
-            ROMData.Put(0x39810 + i, heartByte);
+            byte heartByte = ROMData.GetByte(ROM.ChrRomOffs + 0x7800 + i);
+            ROMData.Put(ROM.ChrRomOffs + 0x09800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x0B800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x0D800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x13800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x15800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x17800 + i, heartByte);
+            ROMData.Put(ROM.ChrRomOffs + 0x19800 + i, heartByte);
         }
 
         /*
@@ -3087,7 +3091,7 @@ public class Hyrule
         //fix for rope graphical glitch
         for (int i = 0; i < 16; i++)
         {
-            ROMData.Put(0x32CD0 + i, ROMData.GetByte(0x34CD0 + i));
+            ROMData.Put(ROM.ChrRomOffs + 0x12CC0 + i, ROMData.GetByte(ROM.ChrRomOffs + 0x14CC0 + i));
         }
     }
 
