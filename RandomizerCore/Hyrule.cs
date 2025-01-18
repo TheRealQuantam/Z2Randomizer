@@ -538,6 +538,7 @@ public class Hyrule
         {
             OnFileReadText = AsmFileReadTextCallback,
         };
+        asm.Module().Code(Util.ReadResource("RandomizerCore.Asm.Init.s"), "__init.s");
 
         return asm;
     }
